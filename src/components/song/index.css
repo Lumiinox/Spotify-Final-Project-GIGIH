@@ -1,0 +1,35 @@
+tr{
+    border-spacing: 10px; 
+    width:100%;
+}
+
+td{
+    vertical-align: middle;
+    width:250px;
+}
+
+.textTdElement{
+    font-size: 20px;
+}
+  
+.songImage{
+    width: 100px;
+}
+.child {
+  flex: 0 1 300px;
+  flex: 1 1 300px;
+  border: 1px solid rgb(255, 255, 255);
+  font-size: 2rem;
+  text-align: center;
+  margin: 20px;
+  padding: 30px 10px;
+  border-radius: 25px;
+}
+
+body {
+  font-family: system-ui, serif;
+}
+
+.songButton{
+  width: 200px;
+}
