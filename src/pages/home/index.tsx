@@ -1,38 +1,47 @@
 import React, { useEffect } from 'react';
-import {useSelector} from 'react-redux';
 import { Link } from "react-router-dom";
 
-import * as CallApi from '../../api-calls/fetchAPI';
-
-import { updateProfileData, removeProfileData } from '../../redux/actions';
-import store from '../../redux/store';
+import * as CallApi from '../../api-calls/fetchApi';
 
 import ProfileHeader from '../../components/profileHeader';
-import ProfileCard from '../../components/profileCard/index.tsx';
+import ProfileCard from '../../components/profileCard';
 
 import './index.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators, State } from '../../redux/';
 
 function Home (){
-    const CLIENT_ID = "50617af7a91f49b78dd47bcc7ee69433";
-    const REDIRECT_URI = "http://localhost:3000";
+    const CLIENT_ID     = "50617af7a91f49b78dd47bcc7ee69433";
+    const REDIRECT_URI  = "http://localhost:3000";
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
     const RESPONSE_TYPE = "token";
-    const SCOPE = 'playlist-modify-private';
+    const SCOPE         = 'playlist-modify-private';
 
-    const loginStatus = useSelector((state) => state.loginStatus);
-    const profilePicUrl = useSelector((state)=>state.picUrl);
-    const userName = useSelector((state) => state.userName);
-    const followers = useSelector((state) => state.followers);
+    const dispatch = useDispatch();
+
+    const { updateProfileData, removeProfileData } = bindActionCreators(actionCreators, dispatch);
+  
+    const loginStatus   = useSelector((state: State) => state.userData.loginStatus);
+    const profilePicUrl = useSelector((state: State) => state.userData.picUrl);
+    const userName      = useSelector((state: State) => state.userData.userName);
+    const followers     = useSelector((state: State) => state.userData.followers);
 
     useEffect(() => {
         const hash = window.location.hash
-        let tokenIn = null;
-    
+        let tokenIn: string | null = null;
+
         if (!tokenIn && hash) {
-            tokenIn = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
+            
+            const currentUrl = window.location.hash.split("&");
+            let newUrl = currentUrl[0];
+            newUrl = newUrl.substring(newUrl.lastIndexOf("=")+1);
+            console.log(newUrl)
+            tokenIn = newUrl;
     
-            window.location.hash = "";
+            // window.location.hash = "";
+
             console.log("URI change");
 
         }
@@ -42,15 +51,15 @@ function Home (){
                 const userData = await CallApi.GetUserData(tokenIn);
                 console.log(userData);
                 console.log(userData.images[0].url);
-                store.dispatch(updateProfileData(userData.display_name, userData.images[0].url, tokenIn, userData.followers.total, userData.id))
-                console.log(store.getState());
+                updateProfileData(userData.display_name, userData.images[0].url, tokenIn, userData.followers.total, userData.id)
             }
             getUserData()
+            console.log(loginStatus)
         }
       },[])
 
     const logout = () => {
-        store.dispatch(removeProfileData())
+        removeProfileData();
     }  
 
     return(

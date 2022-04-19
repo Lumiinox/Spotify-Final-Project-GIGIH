@@ -3,29 +3,36 @@ import Search from '../../components/search';
 import ProfileHeader from '../../components/profileHeader';
 import CreatePlayListForm from '../../components/createPlayListForm';
 import React, { useEffect, useState } from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as CallApi from "../../api-calls/fetchApi";
+import { State } from '../../redux';
 
 import './index.css';
+
+import { ISongs } from '../../interfaces/SongInterface';
+import { PlayListInfo } from '../../interfaces/PlayListInterface';
+
 import { Link } from "react-router-dom";
 
 function CreatePlayList(){
 
-    const [selectedSongUri, setSelectedSongUri] = useState([]);
-    const [searchResult, setSearchResult] = useState([]);
+    const [selectedSongUri, setSelectedSongUri] = useState<string[]>([]);
+    const [searchResult, setSearchResult] = useState<ISongs[]>([]);
     
-    const [searchKeyword, setSearchKeyword] = useState("");
-    
-    const [playlistName, setPlaylistName] = useState("");
-    const [playlistDescription, setPlayListDescription] = useState("");
+    const [searchKeyword, setSearchKeyword] = useState<string>("");
+
+    const [playListInfo, setPlayListInfo] = useState<PlayListInfo>({
+        name:"",
+        description:"",
+    })
 
     const [searchStatus, setSearchStatus] = useState(false);
 
-    const loginStatus = useSelector((state) => state.loginStatus);
-    const profilePicUrl = useSelector((state)=>state.picUrl);
-    const userName = useSelector((state)=>state.userName);
-    const accessToken = useSelector((state)=>state.token);
-    const userID = useSelector((state)=>state.userId);
+    const loginStatus   = useSelector((state: State) => state.userData.loginStatus);
+    const profilePicUrl = useSelector((state: State) => state.userData.picUrl);
+    const userName      = useSelector((state: State) => state.userData.userName);
+    const accessToken   = useSelector((state: State) => state.userData.token);
+    const userID        = useSelector((state: State) => state.userData.userId);
 
     useEffect(() => {
         if(!searchStatus){
@@ -34,20 +41,34 @@ function CreatePlayList(){
         }
     },[selectedSongUri]);
 
-    const CallSpotifySearch = async (e) => {
-        e.preventDefault();
-        
-        const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
-        if (searchResultData !== null){
-            console.log(searchResultData);
-            setSearchStatus(true);            
-            const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
-            const tempSearchResult = searchResultData.tracks.items.filter((searchResult) => !selectedSongUri.includes(searchResult.uri));
-            setSearchResult([...tempSelectedSong, ...tempSearchResult]);
+    useEffect(()=> {
+        const CallSpotifySearch = async () => {
+            const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
+            if (searchResultData !== null){
+                console.log(searchResultData);
+                setSearchStatus(true);            
+                const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
+                const tempSearchResult = searchResultData.tracks.items.filter((searchResult: ISongs) => !selectedSongUri.includes(searchResult.uri));
+                setSearchResult([...tempSelectedSong, ...tempSearchResult]);
+            }
         }
-    }
+        CallSpotifySearch();
+    },[searchKeyword])
 
-    const selectSong = (searchResult) => {
+    // const CallSpotifySearch = async (e) => {
+    //     e.preventDefault();
+        
+    //     const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
+    //     if (searchResultData !== null){
+    //         console.log(searchResultData);
+    //         setSearchStatus(true);            
+    //         const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
+    //         const tempSearchResult = searchResultData.tracks.items.filter((searchResult: ISongs) => !selectedSongUri.includes(searchResult.uri));
+    //         setSearchResult([...tempSelectedSong, ...tempSearchResult]);
+    //     }
+    // }
+
+    const selectSong = (searchResult: ISongs) => {
         const tempUri = searchResult.uri;
         if (selectedSongUri.includes(tempUri)){
             setSelectedSongUri(selectedSongUri.filter((item) => item !== tempUri));
@@ -57,11 +78,11 @@ function CreatePlayList(){
     }
 
     const CreatePlaylist = async () => {
-        const playListID = await CallApi.CreatePlaylist(playlistName, playlistDescription, userID, accessToken);
+        const playListID = await CallApi.CreatePlaylist(playListInfo.name, playListInfo.description, userID, accessToken);
         return playListID;
         }
 
-    const AddMusicToCreatedPlaylist = async (playListID) => {
+    const AddMusicToCreatedPlaylist = async (playListID:string) => {
         let uris = selectedSongUri;
         console.log("PlayListID")
         console.log(playListID);
@@ -70,11 +91,10 @@ function CreatePlayList(){
             uris
         
         });
-        await CallApi.AddMusicToCreatedPlaylist(data, playListID, accessToken).then(alert("Playlist Created"));
+        await CallApi.AddMusicToCreatedPlaylist(data, playListID, accessToken).then();
     }
 
-    const CreateAndAddToPlaylist = async (e) =>{
-        e.preventDefault();
+    const CreateAndAddToPlaylist = async () =>{
         const playListID = await CreatePlaylist();
 
         await AddMusicToCreatedPlaylist(playListID);
@@ -100,17 +120,15 @@ function CreatePlayList(){
             {loginStatus && 
                 <>
                     <CreatePlayListForm 
-                        onChangeName    = {e => setPlaylistName(e.target.value)} 
-                        onChangeDesc    = {e => setPlayListDescription(e.target.value)} 
-                        onSubmit        = {CreateAndAddToPlaylist}/> 
+                        setPlayListInfo = {setPlayListInfo}
+                        CreateAndAddToPlaylist = {CreateAndAddToPlaylist}/> 
 
                     <br/>
                     <br/>
                     <br/>
 
                     <Search 
-                        setSearchKeword = {e => setSearchKeyword(e.target.value)} 
-                        onSubmit        = {CallSpotifySearch}
+                        setSearchKeyword = {setSearchKeyword} 
                     />
 
                     <br/>

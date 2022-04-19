@@ -1,17 +1,16 @@
 import './index.css';
 import {useState} from 'react';
-import CustomButton from '../customButton';
 import React from 'react';
-import {string, func} from 'prop-types';
 
 interface SongsProps {
     url: string;
     name: string;
     artistName: string;
     albumName: string;
+    selectSong: () => void;
 }
 
-const Songs = (props) => {
+const Songs = (props:SongsProps) => {
     const [selectedStatus, setSelectedStatus] = useState(true);
 
     const SwitchStatus = () => {
@@ -26,17 +25,9 @@ const Songs = (props) => {
                 <h2 className='textTdElement'>{props.name}</h2>
                 <p className='textTdElement'>{props.artistName}</p>
                 <p className='textTdElement'>{props.albumName}</p>
-                <div><CustomButton className="songButton" type="button" onClick={SwitchStatus}>{selectedStatus ? "Select" : "Deselect"}</CustomButton></div>
+                <div><button className="songButton" type="button" onClick={SwitchStatus}>{selectedStatus ? "Select" : "Deselect"}</button></div>
             </div>
         </>
     )
-}
-
-Songs.propTypes = {
-    selectSong: func,
-    url: string,
-    artistName: string,
-    albumName: string,
-    name: string
 }
 export default Songs;

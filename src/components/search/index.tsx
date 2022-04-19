@@ -1,26 +1,38 @@
-import CustomButton from '../customButton';
-import {func} from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface SearchProps{
-    onSubmit: React.FormEventHandler<HTMLFormElement>;
+    setSearchKeyword: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Search = (props:SearchProps) => {
+const Search: React.FC<SearchProps> = ({setSearchKeyword}) => {
+    const [input, setInput] = useState("")
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setInput(e.target.value)
+    }
+
+    const handleClick = (): void => {
+        if (!input){
+            return;
+        }
+        setSearchKeyword(input);
+        setInput("");
+    }
+
     return (
         <>
-            <form onSubmit={props.onSubmit}>
-                <input type = "text" placeholder = "Search.." onChange={props.setSearchKeyword}></input>
-                <br/>
-                <br/>
-                <CustomButton type="submit">Search</CustomButton>
-            </form>
+            <input 
+                type = "text" 
+                placeholder = "Search.." 
+                onChange={handleChange}
+            />
+            <br/>
+            <br/>
+            <button
+                onClick={handleClick}
+            ></button>
         </>
     )
 }
 
-Search.propTypes = {
-    onSubmit: func,
-    setSearchKeword: func
-}
 export default Search;

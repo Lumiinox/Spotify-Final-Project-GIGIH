@@ -1,13 +1,13 @@
-import {ActionType} from '../action-types/index';
+import { ActionType } from '../action-types/index';
 import { Action } from '../actions';
 
 interface StateProps{
-    token: string,
-    userName: string,
-    userId: string,
-    picUrl: string,
-    follower: string,
-    loginStatus: boolean,    
+    token: string | null;
+    userName: string;
+    userId: string;
+    picUrl: string;
+    followers: string;
+    loginStatus: boolean;    
 }
 
 const initialState = {
@@ -15,11 +15,11 @@ const initialState = {
     userName:"",
     userId:"",
     picUrl:"",
-    follower:"",
+    followers:"",
     loginStatus: false,
 };
 
-function reducer (state: StateProps = initialState, action: Action) {
+const reducer = (state: StateProps = initialState, action: Action) => {
     switch (action.type){
         case ActionType.UPDATE_ACC_DATA:
             return{
@@ -34,8 +34,10 @@ function reducer (state: StateProps = initialState, action: Action) {
         case ActionType.REMOVE_ACC_DATA:
             return{
                 userName: "",
+                userId: "",
                 picUrl: "",
                 token: "",
+                followers: "",
                 loginStatus: false,
             }
         default:

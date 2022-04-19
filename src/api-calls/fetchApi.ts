@@ -1,28 +1,6 @@
 import axios from "axios";
 
-interface TokenProps{
-    token: string;
-}
-
-interface CallSpotifySearchProps{
-    searchKeyword: string;
-    token: TokenProps;
-}
-
-interface CreatePlaylistProps{
-    playlistName: string;
-    playlistDescription: string;
-    userID: string;
-    token: TokenProps;
-}
-
-interface AddMusicToCreatedPlaylistProps{
-    data: string;
-    playListID: string;
-    token: TokenProps;
-}
-
-export const CallSpotifySearch = async ({token, searchKeyword}: CallSpotifySearchProps) => {
+export const CallSpotifySearch = async (token: string | null, searchKeyword: string) => {
     const response = await axios.get(`https://api.spotify.com/v1/search`,{
         headers: {
             Authorization: `Bearer ${token}`
@@ -35,7 +13,7 @@ export const CallSpotifySearch = async ({token, searchKeyword}: CallSpotifySearc
     return response.data;
 }
 
-export const GetUserData = async (token: TokenProps) => {
+export const GetUserData = async (token: string | null) => {
     console.log(token);
     const headerData = {
         headers: {
@@ -48,7 +26,7 @@ export const GetUserData = async (token: TokenProps) => {
 }
 
 
-export const CreatePlaylist = async ({playlistName, playlistDescription, userID, token}: CreatePlaylistProps) => {
+export const CreatePlaylist = async (playlistName: string, playlistDescription: string, userID: string, token: string | null) => {
     const data = JSON.stringify({
         name: playlistName,
         description: playlistDescription,
@@ -71,7 +49,7 @@ export const CreatePlaylist = async ({playlistName, playlistDescription, userID,
     return response.data.id;
 }
 
-export const AddMusicToCreatedPlaylist = async ({data, playListID, token}: AddMusicToCreatedPlaylistProps) => {
+export const AddMusicToCreatedPlaylist = async (data: string, playListID: string, token: string | null) => {
     const headerConfig = {
         headers: {
             'Authorization': `Bearer ${token}`,

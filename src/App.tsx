@@ -1,11 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import RoutingRender from './routing';
+import React from 'react';
 
 function App() {
   return (
     <div className="App">
-
+      <RoutingRender />
     </div>
   );
 }
