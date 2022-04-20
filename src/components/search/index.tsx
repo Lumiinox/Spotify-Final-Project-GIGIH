@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 
 interface SearchProps{
+    searchKeyword: string;
     setSearchKeyword: React.Dispatch<React.SetStateAction<string>>
+    CallSpotifySearch: ()=> void;
 }
 
-const Search: React.FC<SearchProps> = ({setSearchKeyword}) => {
-    const [input, setInput] = useState("")
+const Search: React.FC<SearchProps> = ({searchKeyword, setSearchKeyword, CallSpotifySearch}) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setInput(e.target.value)
+        setSearchKeyword(e.target.value)
     }
 
-    const handleClick = (): void => {
-        if (!input){
-            return;
-        }
-        setSearchKeyword(input);
-        setInput("");
+    const handleClick = () => {
+        console.log(searchKeyword);
+        CallSpotifySearch();
     }
 
     return (
@@ -30,7 +28,7 @@ const Search: React.FC<SearchProps> = ({setSearchKeyword}) => {
             <br/>
             <button
                 onClick={handleClick}
-            ></button>
+            >Search</button>
         </>
     )
 }

@@ -1,4 +1,4 @@
-export interface PlayListInfo {
+export interface PlayListInfoProps {
     name: string;
     description: string;
 }

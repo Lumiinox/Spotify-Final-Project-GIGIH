@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, State } from '../../redux/';
 
+
 function Home (){
     const CLIENT_ID     = "50617af7a91f49b78dd47bcc7ee69433";
     const REDIRECT_URI  = "http://localhost:3000";
@@ -40,7 +41,7 @@ function Home (){
             console.log(newUrl)
             tokenIn = newUrl;
     
-            // window.location.hash = "";
+            window.location.hash = "";
 
             console.log("URI change");
 
@@ -88,7 +89,7 @@ function Home (){
                             to Spotify</a>
                         : <button onClick={logout}>Logout</button>}
                 <br/>
-                <Link to="/create-playlist">Create Playlist</Link>
+                    <Link to="/create-playlist">Create Playlist</Link>
             </div>
         </div>
     )

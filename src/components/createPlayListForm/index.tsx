@@ -1,7 +1,6 @@
 import './index.css';
 import React, { useState } from 'react';
-import { PlayListInfo } from '../../interfaces/PlayListInterface';
-
+import { PlayListInfoProps } from '../../interfaces/PlayListInterface';
 interface IInput{
     name: string;
     description: string;
@@ -9,26 +8,30 @@ interface IInput{
 
 interface CreatePlayListProps{
     CreateAndAddToPlaylist: ()=> void;
-    setPlayListInfo: React.Dispatch<React.SetStateAction<PlayListInfo>>;
+    setPlayListInfo: React.Dispatch<React.SetStateAction<PlayListInfoProps>>;
+    playListInfo: PlayListInfoProps;
 }
-const CreatePlayListForm: React.FC<CreatePlayListProps> = ({setPlayListInfo, CreateAndAddToPlaylist}) => {
-    const [input, setInput] = useState<IInput>({
-        name:"",
-        description:"",
-    })
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setInput({
-            ...input,
-            [e.target.name]: e.target.value
+const CreatePlayListForm: React.FC<CreatePlayListProps> = ({playListInfo, setPlayListInfo, CreateAndAddToPlaylist}) => {
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void =>{
+        setPlayListInfo({
+            ...playListInfo,
+            name: e.target.value
+        })
+        console.log(playListInfo.name)
+    }
+    const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+        setPlayListInfo({
+            ...playListInfo,
+            description: e.target.value
         })
     }
  
     const handleClick = (): void => {
-        if (!input){
+        if (!playListInfo.name || !playListInfo.description ){
             return;
         }
-        setPlayListInfo(input);
+        console.log(playListInfo.name)
+        console.log(playListInfo.description)
         CreateAndAddToPlaylist();
     }
     return (
@@ -39,7 +42,7 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({setPlayListInfo, Cre
                     type = "text" 
                     placeholder = "Playlist Name" 
                     name="name"
-                    onChange={handleChange}
+                    onChange={handleNameChange}
                 />
                 <br/>
                 <br/>
@@ -47,7 +50,7 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({setPlayListInfo, Cre
                 <textarea 
                     placeholder = "Playlist Description" 
                     name="description"
-                    onChange={handleChange}
+                    onChange={handleDescChange}
                 />
 
                 <br/>

@@ -10,18 +10,18 @@ import { State } from '../../redux';
 import './index.css';
 
 import { ISongs } from '../../interfaces/SongInterface';
-import { PlayListInfo } from '../../interfaces/PlayListInterface';
+import { PlayListInfoProps } from '../../interfaces/PlayListInterface';
 
 import { Link } from "react-router-dom";
 
-function CreatePlayList(){
+function CreatePlayListPage(){
 
     const [selectedSongUri, setSelectedSongUri] = useState<string[]>([]);
     const [searchResult, setSearchResult] = useState<ISongs[]>([]);
     
     const [searchKeyword, setSearchKeyword] = useState<string>("");
 
-    const [playListInfo, setPlayListInfo] = useState<PlayListInfo>({
+    const [playListInfo, setPlayListInfo] = useState<PlayListInfoProps>({
         name:"",
         description:"",
     })
@@ -41,32 +41,18 @@ function CreatePlayList(){
         }
     },[selectedSongUri]);
 
-    useEffect(()=> {
-        const CallSpotifySearch = async () => {
-            const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
-            if (searchResultData !== null){
-                console.log(searchResultData);
-                setSearchStatus(true);            
-                const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
-                const tempSearchResult = searchResultData.tracks.items.filter((searchResult: ISongs) => !selectedSongUri.includes(searchResult.uri));
-                setSearchResult([...tempSelectedSong, ...tempSearchResult]);
-            }
+    const CallSpotifySearch = async () => {       
+        console.log(accessToken);
+        console.log(searchKeyword);
+        const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
+        if (searchResultData !== null){
+            console.log(searchResultData);
+            setSearchStatus(true);            
+            const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
+            const tempSearchResult = searchResultData.tracks.items.filter((searchResult: ISongs) => !selectedSongUri.includes(searchResult.uri));
+            setSearchResult([...tempSelectedSong, ...tempSearchResult]);
         }
-        CallSpotifySearch();
-    },[searchKeyword])
-
-    // const CallSpotifySearch = async (e) => {
-    //     e.preventDefault();
-        
-    //     const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
-    //     if (searchResultData !== null){
-    //         console.log(searchResultData);
-    //         setSearchStatus(true);            
-    //         const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
-    //         const tempSearchResult = searchResultData.tracks.items.filter((searchResult: ISongs) => !selectedSongUri.includes(searchResult.uri));
-    //         setSearchResult([...tempSelectedSong, ...tempSearchResult]);
-    //     }
-    // }
+    }
 
     const selectSong = (searchResult: ISongs) => {
         const tempUri = searchResult.uri;
@@ -117,38 +103,39 @@ function CreatePlayList(){
             
         <Link to="/">Back Home</Link>
 
-            {loginStatus && 
-                <>
-                    <CreatePlayListForm 
-                        setPlayListInfo = {setPlayListInfo}
-                        CreateAndAddToPlaylist = {CreateAndAddToPlaylist}/> 
+        {loginStatus && 
+            <>
+                <CreatePlayListForm 
+                    setPlayListInfo = {setPlayListInfo}
+                    CreateAndAddToPlaylist = {CreateAndAddToPlaylist}
+                    playListInfo = {playListInfo}/>
 
-                    <br/>
-                    <br/>
-                    <br/>
-
-                    <Search 
-                        setSearchKeyword = {setSearchKeyword} 
-                    />
-
-                    <br/>
-                    <div className='parent'>
-                        {searchResult.map((data) => 
-                                    <Songs
-                                        key         = {data.id}
-                                        url         = {data.album.images[1].url} 
-                                        name        = {data.name} 
-                                        artistName  = {data.album.artists[0].name} 
-                                        albumName   = {data.album.name}
-                                        selectSong  = {() => selectSong(data)}
-                                    />
-                                )
-                            }
-                    </div>
-                </>
-            } 
+                <br/>
+                <br/>
+                <br/>
+                <Search 
+                    searchKeyword = {searchKeyword}
+                    setSearchKeyword = {setSearchKeyword} 
+                    CallSpotifySearch = {CallSpotifySearch}
+                />
+                <br/>
+                <div className='parent'>
+                    {searchResult.map((data) => 
+                                <Songs
+                                    key         = {data.id}
+                                    url         = {data.album.images[1].url} 
+                                    name        = {data.name} 
+                                    artistName  = {data.album.artists[0].name} 
+                                    albumName   = {data.album.name}
+                                    selectSong  = {() => selectSong(data)}
+                                />
+                            )
+                        }
+                </div>
+            </>
+        } 
         </div>
     )
 }
 
-export default CreatePlayList;
+export default CreatePlayListPage;
