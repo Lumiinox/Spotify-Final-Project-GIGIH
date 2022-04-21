@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
 
 interface SearchProps{
-    searchKeyword: string;
     setSearchKeyword: React.Dispatch<React.SetStateAction<string>>
     CallSpotifySearch: ()=> void;
 }
 
-const Search: React.FC<SearchProps> = ({searchKeyword, setSearchKeyword, CallSpotifySearch}) => {
+const Search: React.FC<SearchProps> = ({setSearchKeyword, CallSpotifySearch}) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSearchKeyword(e.target.value)

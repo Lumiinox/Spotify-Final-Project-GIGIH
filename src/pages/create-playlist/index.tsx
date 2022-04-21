@@ -106,7 +106,6 @@ function CreatePlayListPage(){
                 <br/>
                 <br/>
                 <Search 
-                    searchKeyword = {searchKeyword}
                     setSearchKeyword = {setSearchKeyword} 
                     CallSpotifySearch = {CallSpotifySearch}
                 />

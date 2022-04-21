@@ -9,7 +9,7 @@ const DummyFunction = () => {
 
 const setup = () => {
     render(
-        <Search searchKeyword='' setSearchKeyword={DummyFunction} CallSpotifySearch={DummyFunction}/>
+        <Search setSearchKeyword={DummyFunction} CallSpotifySearch={DummyFunction}/>
     );
 }
 

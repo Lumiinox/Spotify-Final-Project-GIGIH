@@ -74,14 +74,15 @@ function Home (){
                     displayName = {userName}
                     followers   = {followers}/>
                     
+                <br/>
+                    <Link className="buttonA" to="/create-playlist">Create Playlist</Link>
+                <br/>
+                    <Link className="buttonA" to="/playlist">Playlist</Link>
+                <br/>
                 {!loginStatus ?
-                        <a className="buttonA" href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
-                            to Spotify</a>
-                        : <button onClick={logout}>Logout</button>}
-                <br/>
-                    <Link to="/create-playlist">Create Playlist</Link>
-                <br/>
-                    <Link to="/playlist">Playlist</Link>
+                    <a className="buttonA" href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
+                        to Spotify</a>
+                    : <button onClick={logout}>Logout</button>}
             </div>
         </div>
     )
