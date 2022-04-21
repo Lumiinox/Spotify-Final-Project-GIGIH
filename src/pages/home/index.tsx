@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-import * as CallApi from '../../api-calls/fetchApi';
-
+import { GetUserDataAPI } from '../../api-calls/fetchApi';
 import ProfileHeader from '../../components/profileHeader';
 import ProfileCard from '../../components/profileCard';
 
@@ -18,7 +17,7 @@ function Home (){
     const REDIRECT_URI  = "http://localhost:3000";
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
     const RESPONSE_TYPE = "token";
-    const SCOPE         = 'playlist-modify-private';
+    const SCOPE         = 'playlist-modify-private, playlist-read-private';
 
     const dispatch = useDispatch();
 
@@ -49,7 +48,7 @@ function Home (){
         console.log(tokenIn);
         if (tokenIn !== null){
             const getUserData = async () => {
-                const userData = await CallApi.GetUserData(tokenIn);
+                const userData = await GetUserDataAPI(tokenIn);
                 console.log(userData);
                 console.log(userData.images[0].url);
                 updateProfileData(userData.display_name, userData.images[0].url, tokenIn, userData.followers.total, userData.id)
@@ -90,6 +89,8 @@ function Home (){
                         : <button onClick={logout}>Logout</button>}
                 <br/>
                     <Link to="/create-playlist">Create Playlist</Link>
+                <br/>
+                    <Link to="/playlist">Playlist</Link>
             </div>
         </div>
     )

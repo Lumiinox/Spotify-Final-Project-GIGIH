@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const CallSpotifySearch = async (token: string | null, searchKeyword: string) => {
+export const CallSpotifySearchAPI = async (token: string | null, searchKeyword: string) => {
     const response = await axios.get(`https://api.spotify.com/v1/search`,{
         headers: {
             Authorization: `Bearer ${token}`
@@ -13,8 +13,7 @@ export const CallSpotifySearch = async (token: string | null, searchKeyword: str
     return response.data;
 }
 
-export const GetUserData = async (token: string | null) => {
-    console.log(token);
+export const GetUserDataAPI = async (token: string | null) => {
     const headerData = {
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -26,7 +25,7 @@ export const GetUserData = async (token: string | null) => {
 }
 
 
-export const CreatePlaylist = async (playlistName: string, playlistDescription: string, userID: string, token: string | null) => {
+export const CreatePlaylistAPI = async (playlistName: string, playlistDescription: string, userID: string, token: string | null) => {
     const data = JSON.stringify({
         name: playlistName,
         description: playlistDescription,
@@ -49,7 +48,7 @@ export const CreatePlaylist = async (playlistName: string, playlistDescription: 
     return response.data.id;
 }
 
-export const AddMusicToCreatedPlaylist = async (data: string, playListID: string, token: string | null) => {
+export const AddMusicToCreatedPlaylistAPI = async (data: string, playListID: string, token: string | null) => {
     const headerConfig = {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -60,4 +59,39 @@ export const AddMusicToCreatedPlaylist = async (data: string, playListID: string
         data, 
         headerConfig);
     return response.data;
+}
+
+export const GetCurrentUserPlayListAPI = async (token: string | null) => {
+    const headerConfig = {
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+        },
+    }
+    const response = await axios.get(`https://api.spotify.com/v1/me/playlists`, headerConfig);
+    return response.data.items;
+}
+
+export const GetUserPlayListAPI = async (token: string | null, userID: string) => {
+    const headerConfig = {
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+        },
+    }
+    const response = await axios.get(`https://api.spotify.com/v1/users/${userID}/playlists`, headerConfig);
+    return response.data;
+}
+
+export const GetPlayListItemsAPI = async (playListID: string, token: string | null) => {
+    const headerConfig = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type' : 'application/json',
+        },
+    }
+    const response = await axios.get(`https://api.spotify.com/v1/playlists/${playListID}/tracks`, 
+        headerConfig);
+    console.log(response.data.items);
+    return response.data.items;
 }

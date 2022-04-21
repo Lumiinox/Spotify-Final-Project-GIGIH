@@ -10,7 +10,13 @@ interface SongsProps {
     selectSong: () => void;
 }
 
-const Songs = (props:SongsProps) => {
+interface SongsLimitedProps {
+    name: string;
+    artistName: string;
+    albumName: string;
+}
+
+export const Songs = (props:SongsProps) => {
     const [selectedStatus, setSelectedStatus] = useState(true);
 
     const SwitchStatus = () => {
@@ -30,4 +36,13 @@ const Songs = (props:SongsProps) => {
         </>
     )
 }
-export default Songs;
+
+export const SongsLimited = (props: SongsLimitedProps) => {
+    return(
+        <tr className='songLimited'>
+            <td className='textLimited'>{props.name}</td>
+            <td className='textLimited'>{props.artistName}</td>
+            <td className='textLimited'>{props.albumName}</td>
+        </tr>
+    )
+}

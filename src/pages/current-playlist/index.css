@@ -1,0 +1,44 @@
+table{
+    width:100%;
+    
+}
+
+.content{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.bodyWrapper{
+    text-align: center;
+}
+
+input{
+    width: 250px;
+    height: 25px;
+    border-radius: 20px;
+    padding: 5px;
+    border-color: white;
+    color: white;
+    background-color: rgb(41, 41, 41) ;
+    font-weight: 100;
+}
+
+textarea{
+    width: 250px;
+    height: 50px;
+    border-radius: 20px;
+    padding: 5px;
+    border-color: white;
+    color: white;
+    background-color: rgb(41, 41, 41) ;
+}
+
+.buttonA{
+  width: 200px;
+}
+
+.parent2 {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}

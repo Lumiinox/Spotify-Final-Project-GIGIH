@@ -11,7 +11,7 @@ export interface UserData {
     followers: Followers;
     href: string;
     id: string;
-    images: Image[];
+    images?: Image[];
     type: string;
     uri: string;
 }

@@ -1,16 +1,17 @@
-import Songs from '../../components/song/index';
+import { Songs } from '../../components/song/index';
 import Search from '../../components/search';
 import ProfileHeader from '../../components/profileHeader';
 import CreatePlayListForm from '../../components/createPlayListForm';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import * as CallApi from "../../api-calls/fetchApi";
+
 import { State } from '../../redux';
 
 import './index.css';
 
 import { ISongs } from '../../interfaces/SongInterface';
 import { PlayListInfoProps } from '../../interfaces/PlayListInterface';
+import { CallSpotifySearchAPI, CreatePlaylistAPI, AddMusicToCreatedPlaylistAPI } from "../../api-calls/fetchApi";
 
 import { Link } from "react-router-dom";
 
@@ -44,7 +45,7 @@ function CreatePlayListPage(){
     const CallSpotifySearch = async () => {       
         console.log(accessToken);
         console.log(searchKeyword);
-        const searchResultData = await CallApi.CallSpotifySearch(accessToken, searchKeyword)
+        const searchResultData = await CallSpotifySearchAPI(accessToken, searchKeyword)
         if (searchResultData !== null){
             console.log(searchResultData);
             setSearchStatus(true);            
@@ -64,7 +65,7 @@ function CreatePlayListPage(){
     }
 
     const CreatePlaylist = async () => {
-        const playListID = await CallApi.CreatePlaylist(playListInfo.name, playListInfo.description, userID, accessToken);
+        const playListID = await CreatePlaylistAPI(playListInfo.name, playListInfo.description, userID, accessToken);
         return playListID;
         }
 
@@ -77,7 +78,7 @@ function CreatePlayListPage(){
             uris
         
         });
-        await CallApi.AddMusicToCreatedPlaylist(data, playListID, accessToken).then();
+        await AddMusicToCreatedPlaylistAPI(data, playListID, accessToken);
     }
 
     const CreateAndAddToPlaylist = async () =>{
@@ -88,19 +89,12 @@ function CreatePlayListPage(){
 
     return(
         <div className='bodyWrapper'>
-        {loginStatus ? <ProfileHeader 
-                loginStatus = {loginStatus} 
-                imageUrl    = {profilePicUrl}
-                displayName = {userName}
-            />
-        :
             <ProfileHeader 
                 loginStatus = {loginStatus} 
                 imageUrl    = {""}
                 displayName = {""}
             />
-        }
-            
+    
         <Link to="/">Back Home</Link>
 
         {loginStatus && 

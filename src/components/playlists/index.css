@@ -1,12 +1,3 @@
-tr{
-    border-spacing: 10px; 
-    width:100%;
-}
-
-td{
-    vertical-align: middle;
-    width:250px;
-}
 
 .textTdElement{
     font-size: 20px;
@@ -16,8 +7,8 @@ td{
     width: 100px;
 }
 .child {
-  flex: 0 1 300px;
-  flex: 1 1 300px;
+  flex: 0 1 600px;
+  flex: 1 1 600px;
   border: 1px solid rgb(255, 255, 255);
   font-size: 2rem;
   text-align: center;
@@ -34,12 +25,9 @@ body {
   width: 200px;
 }
 
-.songLimited{
-  width: 100%;
-  font-size: 15px;
-  padding-top: 20px;
-}
-
-.textLimited{
-  padding: 15px 0;
+table{
+  border: 1px solid;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
