@@ -40,14 +40,11 @@ function CreatePlayListPage(){
             const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
             setSearchResult(tempSelectedSong);
         }
-    },[selectedSongUri]);
+    },[searchResult, searchStatus, selectedSongUri]);
 
     const CallSpotifySearch = async () => {       
-        console.log(accessToken);
-        console.log(searchKeyword);
         const searchResultData = await CallSpotifySearchAPI(accessToken, searchKeyword)
         if (searchResultData !== null){
-            console.log(searchResultData);
             setSearchStatus(true);            
             const tempSelectedSong = searchResult.filter((searchResult) => selectedSongUri.includes(searchResult.uri));
             const tempSearchResult = searchResultData.tracks.items.filter((searchResult: ISongs) => !selectedSongUri.includes(searchResult.uri));
@@ -71,9 +68,6 @@ function CreatePlayListPage(){
 
     const AddMusicToCreatedPlaylist = async (playListID:string) => {
         let uris = selectedSongUri;
-        console.log("PlayListID")
-        console.log(playListID);
-        console.log(uris);
         const data = JSON.stringify({
             uris
         
@@ -82,17 +76,21 @@ function CreatePlayListPage(){
     }
 
     const CreateAndAddToPlaylist = async () =>{
+        if(!playListInfo.name || !playListInfo.description){
+            alert("Please fills in the name and description");
+            return;
+        }
         const playListID = await CreatePlaylist();
-
         await AddMusicToCreatedPlaylist(playListID);
+        alert("Playlist Created");
     }
 
     return(
         <div className='bodyWrapper'>
             <ProfileHeader 
                 loginStatus = {loginStatus} 
-                imageUrl    = {""}
-                displayName = {""}
+                imageUrl    = {profilePicUrl}
+                displayName = {userName}
             />
     
         <Link to="/">Back Home</Link>

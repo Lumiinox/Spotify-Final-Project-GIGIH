@@ -16,7 +16,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
                         <img src={props.imageUrl} alt="" className='profilePic'/>
                     </div>
                     <div className="header-container-right">
-                        <h3 className='userName'>{props.displayName}</h3>
+                        <h3 className='userName' data-testid="test-name">{props.displayName}</h3>
                     </div>
                 </div>
             ) : (

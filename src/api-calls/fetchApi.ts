@@ -44,7 +44,6 @@ export const CreatePlaylistAPI = async (playlistName: string, playlistDescriptio
         data, 
         headerConfig
     );
-    console.log("resonse.data.id" + response.data.id);
     return response.data.id;
 }
 
@@ -92,6 +91,5 @@ export const GetPlayListItemsAPI = async (playListID: string, token: string | nu
     }
     const response = await axios.get(`https://api.spotify.com/v1/playlists/${playListID}/tracks`, 
         headerConfig);
-    console.log(response.data.items);
     return response.data.items;
 }

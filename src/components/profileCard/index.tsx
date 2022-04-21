@@ -13,16 +13,20 @@ export default function ProfileCard({loginStatus, imageUrl, displayName, followe
         <>
             {loginStatus ? (
                 <div className="wrapper">
+
                     <div className='imageWrapper'>
                         <img src={imageUrl} alt="" className='profilePicCard'/>
                     </div>
+
                     <div className="info">
+
                         <div className="nameWrapper">
-                            <h3 className='userName'>{displayName}</h3>
+                            <h3 className='userName' data-testid="test-name">{displayName}</h3>
                         </div>
                         <div className="followerWrapper">
-                            <h3 className='follower'>Followers: {followers}</h3>
+                            <h3 className='follower'data-testid="test-followers">Followers: {followers}</h3>
                         </div>
+                        
                     </div>
                 </div>
             ) : (

@@ -28,9 +28,9 @@ export const Songs = (props:SongsProps) => {
         <>
             <div className='child'>
                 <div><img className="songImage" src={props.url} alt=""/></div>
-                <h2 className='textTdElement'>{props.name}</h2>
-                <p className='textTdElement'>{props.artistName}</p>
-                <p className='textTdElement'>{props.albumName}</p>
+                <h2 className='textTdElement' data-testid = "name-test">{props.name}</h2>
+                <p className='textTdElement' data-testid = "artistName-test">{props.artistName}</p>
+                <p className='textTdElement' data-testid = "albumName-test">{props.albumName}</p>
                 <div><button className="songButton" type="button" onClick={SwitchStatus}>{selectedStatus ? "Select" : "Deselect"}</button></div>
             </div>
         </>

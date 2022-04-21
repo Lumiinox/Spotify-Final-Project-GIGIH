@@ -37,26 +37,17 @@ function Home (){
             const currentUrl = window.location.hash.split("&");
             let newUrl = currentUrl[0];
             newUrl = newUrl.substring(newUrl.lastIndexOf("=")+1);
-            console.log(newUrl)
             tokenIn = newUrl;
-    
             window.location.hash = "";
-
-            console.log("URI change");
-
         }
-        console.log(tokenIn);
         if (tokenIn !== null){
             const getUserData = async () => {
                 const userData = await GetUserDataAPI(tokenIn);
-                console.log(userData);
-                console.log(userData.images[0].url);
                 updateProfileData(userData.display_name, userData.images[0].url, tokenIn, userData.followers.total, userData.id)
             }
             getUserData()
-            console.log(loginStatus)
         }
-      },[])
+      })
 
     const logout = () => {
         removeProfileData();

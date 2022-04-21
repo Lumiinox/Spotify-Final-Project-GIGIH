@@ -1,10 +1,6 @@
-import './index.css';
-import React, { useState } from 'react';
+
+import React from 'react';
 import { PlayListInfoProps } from '../../interfaces/PlayListInterface';
-interface IInput{
-    name: string;
-    description: string;
-}
 
 interface CreatePlayListProps{
     CreateAndAddToPlaylist: ()=> void;
@@ -17,7 +13,6 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({playListInfo, setPla
             ...playListInfo,
             name: e.target.value
         })
-        console.log(playListInfo.name)
     }
     const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setPlayListInfo({
@@ -30,8 +25,6 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({playListInfo, setPla
         if (!playListInfo.name || !playListInfo.description ){
             return;
         }
-        console.log(playListInfo.name)
-        console.log(playListInfo.description)
         CreateAndAddToPlaylist();
     }
     return (
@@ -42,6 +35,7 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({playListInfo, setPla
                     type = "text" 
                     placeholder = "Playlist Name" 
                     name="name"
+                    data-testid="playlist-name"
                     onChange={handleNameChange}
                 />
                 <br/>
@@ -50,6 +44,7 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({playListInfo, setPla
                 <textarea 
                     placeholder = "Playlist Description" 
                     name="description"
+                    data-testid="playlist-description"
                     onChange={handleDescChange}
                 />
 
@@ -57,6 +52,7 @@ const CreatePlayListForm: React.FC<CreatePlayListProps> = ({playListInfo, setPla
                 <br/>
                 <button 
                     type="submit" 
+                    data-testid="submit-button"
                     onClick={handleClick}
                 > 
                     Create 

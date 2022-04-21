@@ -1,5 +1,4 @@
 import './index.css';
-import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '../../redux';
@@ -21,10 +20,8 @@ const PlayListsComp = (props: PlayListCompProps) => {
     const accessToken   = useSelector((state: State) => state.userData.token);
 
     const showTracks = async () =>{
-        console.log(props.playListID);
         const songDataIn = await GetPlayListItemsAPI(props.playListID, accessToken);
         setSongData(songDataIn);
-        console.log(songDataIn);
         setTrackShowned(true);
     }
 
@@ -35,16 +32,16 @@ const PlayListsComp = (props: PlayListCompProps) => {
 
     return (
         <>
-            <div className='child'>
-                <div><img className="songImage" src={props.url} alt=""/></div>
-                <h2 className='textTdElement'>{props.name}</h2>
-                <p className='textTdElement'>{props.description}</p>
+            <div className='child2'>
+                <div><img className="songImage" src={props.url} alt="" data-testid="test-url"/></div>
+                <h2 className='textTdElement' data-testid="test-name">{props.name}</h2>
+                <p className='textTdElement' data-testid="test-description">{props.description}</p>
                 {!trackShowned ? 
                     <button onClick={showTracks}>Show Tracks</button>
                 : 
                     <button onClick={hideTracks}>Hide Tracks</button>
                 }
-                <div className='songLimited'>
+                <div className='songLimited' data-testid="song-wrapper">
                     <table>
                         {songData.map((data, index) => 
                                 <SongsLimited 

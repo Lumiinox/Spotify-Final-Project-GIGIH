@@ -10,22 +10,24 @@ import ProfileHeader from "../../components/profileHeader";
 
 function CurrentPlayList(){
     const[playListState, setPlayListState] = useState<PlayLists[]>([]);
+    const[loadPageFirstTime, setLoadPageFirstTime] = useState<boolean>(true);
 
     const loginStatus   = useSelector((state: State) => state.userData.loginStatus);
     const profilePicUrl = useSelector((state: State) => state.userData.picUrl);
     const userName      = useSelector((state: State) => state.userData.userName);
     const accessToken   = useSelector((state: State) => state.userData.token);
-    const userID        = useSelector((state: State) => state.userData.userId);
 
     useEffect(() => {
-        const getPlayListData = async () => {
-            const currentPlayList = await GetCurrentUserPlayListAPI(accessToken);     
-            setPlayListState(currentPlayList);       
+        if (loadPageFirstTime){
+            const getPlayListData = async () => {
+                const currentPlayList = await GetCurrentUserPlayListAPI(accessToken);     
+                setPlayListState(currentPlayList);       
+            }
+            getPlayListData();
+            setLoadPageFirstTime(false);
         }
-        getPlayListData();
         
-        console.log(playListState)
-    },[])
+    }, [loadPageFirstTime, playListState, accessToken])
 
     return(
         <div className="bodyWrapperHome">

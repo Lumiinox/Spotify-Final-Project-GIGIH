@@ -6,7 +6,7 @@
 .songImage{
     width: 100px;
 }
-.child {
+.child2 {
   flex: 0 1 600px;
   flex: 1 1 600px;
   border: 1px solid rgb(255, 255, 255);
@@ -30,4 +30,5 @@ table{
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
+  border-radius: 20px;
 }

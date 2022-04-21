@@ -13,7 +13,6 @@ const Search: React.FC<SearchProps> = ({searchKeyword, setSearchKeyword, CallSpo
     }
 
     const handleClick = () => {
-        console.log(searchKeyword);
         CallSpotifySearch();
     }
 
@@ -22,11 +21,13 @@ const Search: React.FC<SearchProps> = ({searchKeyword, setSearchKeyword, CallSpo
             <input 
                 type = "text" 
                 placeholder = "Search.." 
+                data-testid = "search-input"
                 onChange={handleChange}
             />
             <br/>
             <br/>
             <button
+                data-testid = "search-button"
                 onClick={handleClick}
             >Search</button>
         </>
