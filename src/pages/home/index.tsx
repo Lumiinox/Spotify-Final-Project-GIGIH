@@ -14,7 +14,7 @@ import { actionCreators, State } from '../../redux/';
 
 function Home (){
     const CLIENT_ID     = "50617af7a91f49b78dd47bcc7ee69433";
-    const REDIRECT_URI  = "https://spotify-final-project-gigih-nos3advns-lumiinox.vercel.app/";
+    const REDIRECT_URI  =  window.location.href;
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
     const RESPONSE_TYPE = "token";
     const SCOPE         = 'playlist-modify-private, playlist-read-private';
