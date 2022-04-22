@@ -24,6 +24,7 @@ This application is the final project for Generasi GIGIH 2.0 Frontend Track.
     <li>Make your own spotify app for clientID and redirect</li>
     <li>Install Redux using <div>npm install redux react-redux react-thunk @types/react-redux</div></li>
     <li>Install Router using <div>npm install react-router-dom@6</div></li>
+    <li>Install Axios using <div>npm install axios</div></li>
 </ul>
 
 
